@@ -1,37 +1,49 @@
-const PRICES = require('../data/prices');
-const { calculateQuote } = require('../services/quote.service');
-const { generateQuotePdf } = require('../services/pdf.service');
+const PRICES = require("../data/prices");
+const { calculateQuote } = require("../services/quote.service");
+const { generateQuotePdf } = require("../services/pdf.service");
 
 function getPrices(req, res) {
-  res.json({ ok: true, prices: PRICES });
+  res.json({
+    ok: true,
+    prices: PRICES,
+  });
 }
 
-function postQuote(req, res) {
+async function postQuote(req, res) {
   try {
-    const quote = calculateQuote(req.body);
+    const quote = await calculateQuote(req.body);
+
     res.json(quote);
   } catch (error) {
     res.status(400).json({
       ok: false,
-      message: error.message
+      error: error.message,
     });
   }
 }
 
 async function postQuotePdf(req, res) {
   try {
-    const quote = calculateQuote(req.body);
-    const pdfBuffer = await generateQuotePdf(quote, req.body.cliente || {});
+    const quote = await calculateQuote(req.body);
+
+    const pdfBuffer = await generateQuotePdf(
+      quote,
+      req.body.cliente || {}
+    );
 
     const filename = `cotizacion-colombia-inspira-${Date.now()}.pdf`;
 
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${filename}"`
+    );
+
     res.send(pdfBuffer);
   } catch (error) {
     res.status(400).json({
       ok: false,
-      message: error.message
+      error: error.message,
     });
   }
 }
@@ -39,5 +51,5 @@ async function postQuotePdf(req, res) {
 module.exports = {
   getPrices,
   postQuote,
-  postQuotePdf
+  postQuotePdf,
 };

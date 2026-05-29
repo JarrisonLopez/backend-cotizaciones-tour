@@ -1,15 +1,5 @@
 const PRICES = {
   transporte: {
-    tiquetesStaff: {
-      label: 'Tiquetes Staff',
-      price: 850000,
-      unit: 'dia'
-    },
-    comidaStaff: {
-      label: 'Comida Staff',
-      price: 250000,
-      unit: 'dia'
-    },
     taxisAeropuerto: {
       label: 'Taxis Aeropuerto',
       price: 50000,
@@ -97,10 +87,19 @@ const PRICES = {
 
   varios: {
     tourLider: { label: 'Tour líder', price: 252480 },
-    honorariosStaff: { label: 'Honorarios staff', price: 252480 },
+
+    staff: {
+      label: 'Staff',
+      tiquetesStaff: 850000,
+      comidaStaff: 250000,
+      honorariosStaff: 252480
+    },
+
     comisionVenta: 0.02,
-    margenDefecto: 0.35,
+    margenDefecto: 0.25,
     margenMinimo: 0.25,
+    minimoPaxParaStaff: 4,
+    minimoPaxParaTourLider: 4,
     minimoParticipantes: 1,
     sostenibilidadPersona: 0,
     costosAdministrativos: 0
